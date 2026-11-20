@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dengue Test | Health Care General Hospital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/site.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>.bn{font-family:'Hind Siliguri',Manrope,sans-serif}</style>
+</head>
+<body class="bg-canvas text-ink text-[15px] leading-relaxed antialiased">
+  <div id="site-header"></div>
+
+  <main>
+    <!-- Hero -->
+    <section class="bg-white border-b border-line-soft">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 py-14 grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <span class="inline-flex rounded-full bg-crit-tint text-crit text-xs font-bold px-3 py-1">Dengue Season Alert</span>
+          <h1 class="bn mt-4 text-3xl sm:text-4xl font-bold leading-snug">ডেঙ্গু জ্বর একটি ভাইরাসজনিত রোগ যা এডিস মশার কামড়ের মাধ্যমে ছড়ায়</h1>
+          <p class="mt-3 text-ink-soft">Dengue is a viral disease spread by the bite of the Aedes mosquito. Early testing helps doctors monitor platelets and treat in time.</p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href="#pricing" class="inline-flex items-center h-12 px-6 rounded-btn bg-teal-dark text-white font-bold hover:bg-teal-deep">Book Dengue Test</a>
+            <a href="tel:01234567890" class="inline-flex items-center h-12 px-6 rounded-btn border-2 border-navy text-navy font-bold hover:bg-navy-tint">Call 01234567890</a>
+          </div>
+        </div>
+        <!-- Fever-day helper -->
+        <div class="bg-teal-tint rounded-[24px] p-6 sm:p-8">
+          <h2 class="font-display text-xl font-bold">Which test do I need?</h2>
+          <p class="text-ink-soft mt-1">Move the slider to the day of fever.</p>
+          <label for="day" class="sr-only">Day of fever</label>
+          <input id="day" type="range" min="1" max="7" value="2" class="mt-6 w-full accent-[#0B7F78]">
+          <div class="flex justify-between text-xs text-ink-soft mt-1"><span>Day 1</span><span>Day 7</span></div>
+          <div class="mt-6 bg-white rounded-card p-5 shadow-card" aria-live="polite">
+            <p class="text-xs font-bold uppercase text-teal-deep">Day <span id="dayN">2</span> of fever</p>
+            <p id="dayT" class="font-display text-2xl font-bold mt-1">Dengue NS1 Antigen</p>
+            <p id="dayD" class="text-ink-soft mt-1">Detects the virus directly in the first 1–3 days.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Is every fever dengue / symptoms -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-8 py-14">
+      <h2 class="bn text-3xl font-bold">সব জ্বরই কি ডেঙ্গু জ্বর?</h2>
+      <p class="mt-3 text-ink-soft max-w-3xl">Not every fever is dengue. Dengue fever often runs at 101–102°F, may be continuous, or may drop with sweating and return. Body aches, headache, pain behind the eyes and a reddish rash can appear — though dengue is possible even without these signs.</p>
+
+      <h3 class="bn mt-12 text-2xl font-bold">ডেঙ্গুর লক্ষণসমূহ <span class="font-sans text-base font-semibold text-ink-soft">· Symptoms</span></h3>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <article class="bg-white rounded-card shadow-card p-6"><p class="font-display text-3xl font-bold text-crit">99–106°F</p><h4 class="mt-2 font-bold">Fever &amp; Chills</h4><p class="text-ink-soft text-sm mt-1">High temperature that can come and go.</p></article>
+        <article class="bg-white rounded-card shadow-card p-6"><p class="font-display text-3xl font-bold text-navy">Eyes</p><h4 class="mt-2 font-bold">Severe Headache</h4><p class="text-ink-soft text-sm mt-1">Usually intense pain behind the eyes.</p></article>
+        <article class="bg-white rounded-card shadow-card p-6"><p class="font-display text-3xl font-bold text-teal-deep">Joints</p><h4 class="mt-2 font-bold">Muscle &amp; Joint Pain</h4><p class="text-ink-soft text-sm mt-1">Aches in muscles, bones and joints.</p></article>
+        <article class="bg-white rounded-card shadow-card p-6"><p class="font-display text-3xl font-bold text-neg">Rash</p><h4 class="mt-2 font-bold">Skin Rash</h4><p class="text-ink-soft text-sm mt-1">Red spots on different parts of the body.</p></article>
+      </div>
+      <p class="mt-6 rounded-card bg-neg-tint text-neg p-4 font-semibold">Bleeding gums, vomiting, severe stomach pain or extreme weakness? Go to Emergency now or call 01234567890.</p>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="bg-white border-y border-line-soft">
+      <div class="max-w-5xl mx-auto px-4 sm:px-8 py-14 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="bn text-3xl font-bold">ডেঙ্গু টেস্ট প্রাইসিং</h2>
+          <p class="mt-2 text-ink-soft">One package covers everything a doctor needs to assess dengue.</p>
+        </div>
+        <div class="rounded-card ring-2 ring-teal-dark p-7 shadow-pop">
+          <p class="text-xs font-bold uppercase text-teal-deep">Dengue Test Package</p>
+          <p class="mt-2"><span class="font-display text-4xl font-bold">৳1,199</span> <span class="text-ink-soft">/ person</span></p>
+          <ul class="mt-5 grid gap-2">
+            <li class="flex gap-2"><span class="text-teal-dark" aria-hidden="true">✓</span>CBC with Platelet Count</li>
+            <li class="flex gap-2"><span class="text-teal-dark" aria-hidden="true">✓</span>Dengue NS1 (fever day 1–3) <em class="not-italic text-ink-soft">or</em> IgG/IgM (day 4–7)</li>
+            <li class="flex gap-2"><span class="text-teal-dark" aria-hidden="true">✓</span>SGPT</li>
+            <li class="flex gap-2"><span class="text-teal-dark" aria-hidden="true">✓</span>SGOT</li>
+          </ul>
+          <p class="mt-5 rounded-field bg-pos-tint text-pos px-3 py-2 text-sm font-semibold">৳50 off when you pay with bKash</p>
+          <a href="index.html#appointment" class="mt-5 flex justify-center items-center h-12 rounded-btn bg-teal-dark text-white font-bold hover:bg-teal-deep">Book Test</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    const day = document.getElementById('day');
+    day.addEventListener('input', () => {
+      const d = +day.value, early = d <= 3;
+      document.getElementById('dayN').textContent = d;
+      document.getElementById('dayT').textContent = early ? 'Dengue NS1 Antigen' : 'Dengue IgG / IgM';
+      document.getElementById('dayD').textContent = early ? 'Detects the virus directly in the first 1–3 days.' : 'Detects antibodies the body makes from day 4 onward.';
+    });
+  </script>
+</body>
+</html>

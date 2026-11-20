@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctors | Health Care General Hospital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/site.js"></script>
+</head>
+<body class="bg-canvas text-ink text-[15px] leading-relaxed antialiased">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="bg-white border-b border-line-soft">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+        <p class="text-teal-dark font-bold text-xs uppercase tracking-wider">Doctors</p>
+        <h1 class="mt-2 font-display text-4xl font-bold">Our Doctors</h1>
+        <p class="mt-3 text-ink-soft"><span id="count" class="font-bold text-ink"></span> specialists available</p>
+
+        <form id="filters" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-[1fr_260px_200px] gap-3" onsubmit="event.preventDefault()">
+          <div class="grid gap-1 sm:col-span-2 lg:col-span-1"><label for="q" class="text-xs font-bold text-ink-soft">Search</label>
+            <input id="q" type="search" placeholder="Doctor name or degree" class="h-11 px-3 rounded-field border border-[#89919A] focus:outline-none focus:border-teal-dark"></div>
+          <div class="grid gap-1"><label for="dept" class="text-xs font-bold text-ink-soft">Department</label>
+            <select id="dept" class="h-11 px-3 rounded-field border border-[#89919A] bg-white focus:outline-none focus:border-teal-dark"></select></div>
+          <div class="grid gap-1"><label for="branch" class="text-xs font-bold text-ink-soft">Branch</label>
+            <select id="branch" class="h-11 px-3 rounded-field border border-[#89919A] bg-white focus:outline-none focus:border-teal-dark">
+              <option>All Branches</option><option>Main Branch</option><option>Branch 2</option></select></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+      <div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+      <div id="empty" class="hidden text-center py-16">
+        <p class="font-display text-xl font-bold">No doctors match your filters.</p>
+        <button id="clear" class="mt-4 h-10 px-4 rounded-btn border border-line bg-white font-bold hover:bg-teal-tint">Clear Filters</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    /* Placeholder roster — replace name / title / degrees / branch with real doctor data. */
+    const DOCTORS = [
+      ['Cardiology', 'Associate Professor', 'MBBS, MD (Cardiology)', 'Main Branch'],
+      ['Cardiology', 'Consultant', 'MBBS, D-CARD', 'Branch 2'],
+      ['Medicine', 'Professor', 'MBBS, FCPS (Medicine)', 'Main Branch'],
+      ['Medicine', 'Consultant', 'MBBS, MRCP (UK)', 'Branch 2'],
+      ['Medicine & Gastroliver', 'Associate Professor', 'MBBS, MD (Gastroenterology)', 'Main Branch'],
+      ['OBS & Gynae', 'Professor', 'MBBS, FCPS (OBS & Gynae)', 'Main Branch'],
+      ['OBS & Gynae', 'Assistant Professor', 'MBBS, MCPS, DGO', 'Branch 2'],
+      ['Child Specialist', 'Associate Professor', 'MBBS, FCPS (Paediatrics)', 'Main Branch'],
+      ['Child Specialist', 'Consultant', 'MBBS, DCH', 'Branch 2'],
+      ['Dermatology & Skin', 'Associate Professor', 'MBBS, MD (Skin & VD)', 'Main Branch'],
+      ['ENT', 'Professor', 'MBBS, MS (ENT & Head-Neck Surgery)', 'Main Branch'],
+      ['Eye', 'Consultant', 'MBBS, MCPS, MS (Eye)', 'Branch 2'],
+      ['Oral & Dental', 'Consultant', 'BDS, PGT (Oral & Maxillofacial Surgery)', 'Branch 2'],
+      ['Neurology', 'Assistant Professor', 'MBBS, MD (Neurology)', 'Main Branch'],
+      ['Orthopedic', 'Associate Professor', 'MBBS, MS (Orthopedic Surgery)', 'Main Branch'],
+      ['Surgery', 'Consultant', 'MBBS, FCPS (Surgery)', 'Main Branch'],
+      ['Nephrology', 'Assistant Professor', 'MBBS, MD (Nephrology)', 'Branch 2'],
+      ['Chest Specialist', 'Consultant', 'MBBS, DTCD, FCPS (Pulmonology)', 'Main Branch'],
+      ['Psychiatry', 'Consultant', 'MBBS, MD (Psychiatry)', 'Branch 2'],
+      ['Emergency', 'Emergency Medical Officer', 'MBBS, CCD', 'Main Branch'],
+    ].map(([dept, title, degrees, branch], i) => ({ name: `Dr. Doctor Name ${i + 1}`, dept, title, degrees, branch }));
+
+    const $ = id => document.getElementById(id);
+    const depts = [...new Set(DOCTORS.map(d => d.dept))].sort();
+    $('dept').innerHTML = '<option>All Departments</option>' + depts.map(d => `<option>${d}</option>`).join('');
+    const pre = new URLSearchParams(location.search).get('dept');
+    if (pre && depts.includes(pre)) $('dept').value = pre;
+
+    const avatar = `<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
+
+    function render() {
+      const q = $('q').value.trim().toLowerCase(), dep = $('dept').value, br = $('branch').value;
+      const list = DOCTORS.filter(d =>
+        (dep === 'All Departments' || d.dept === dep) &&
+        (br === 'All Branches' || d.branch === br) &&
+        (!q || (d.name + ' ' + d.degrees + ' ' + d.title).toLowerCase().includes(q)));
+      $('count').textContent = list.length;
+      $('empty').classList.toggle('hidden', list.length > 0);
+      $('grid').innerHTML = list.map(d => `
+        <article class="group bg-white rounded-card shadow-card overflow-hidden flex flex-col hover:shadow-pop transition-shadow">
+          <div class="relative aspect-[16/9] sm:aspect-[4/3] bg-teal-tint grid place-items-center text-teal-dark">
+            ${avatar}
+            <span class="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-navy">${d.dept}</span>
+          </div>
+          <div class="p-5 flex flex-col flex-1">
+            <h2 class="font-display font-bold text-lg">${d.name}</h2>
+            <p class="text-teal-deep font-semibold">${d.title}</p>
+            <p class="text-ink-soft text-sm mt-1">${d.degrees}</p>
+            <p class="text-ink-mute text-xs mt-2">${d.branch}</p>
+            <a href="index.html#appointment" class="mt-auto pt-4"><span class="flex justify-center items-center h-10 rounded-btn bg-teal-dark text-white font-bold group-hover:bg-teal-deep">Book Appointment</span></a>
+          </div>
+        </article>`).join('');
+    }
+    ['q', 'dept', 'branch'].forEach(id => $(id).addEventListener('input', render));
+    $('clear').addEventListener('click', () => { $('filters').reset(); render(); });
+    render();
+  </script>
+</body>
+</html>

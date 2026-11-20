@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Tools | Health Care General Hospital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/site.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>.bn{font-family:'Hind Siliguri',Manrope,sans-serif}</style>
+</head>
+<body class="bg-canvas text-ink text-[15px] leading-relaxed antialiased">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="bg-white border-b border-line-soft">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+        <p class="text-teal-dark font-bold text-xs uppercase tracking-wider">Resources</p>
+        <h1 class="mt-2 font-display text-4xl font-bold">Patient Tools</h1>
+        <p class="mt-3 text-ink-soft max-w-2xl">Quick calculators for everyday health questions. They give estimates only — talk to a doctor about your results.</p>
+        <nav class="mt-6 flex flex-wrap gap-2" aria-label="Tools">
+          <a href="#due-date" class="h-10 px-4 inline-flex items-center rounded-full border border-line hover:border-teal-dark font-semibold">Due Date</a>
+          <a href="#bmi" class="h-10 px-4 inline-flex items-center rounded-full border border-line hover:border-teal-dark font-semibold">BMI</a>
+          <a href="#symptoms" class="h-10 px-4 inline-flex items-center rounded-full border border-line hover:border-teal-dark font-semibold">Symptom Guide</a>
+        </nav>
+      </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12 grid lg:grid-cols-2 gap-6 items-start">
+      <!-- Due date -->
+      <section id="due-date" class="scroll-mt-24 bg-white rounded-card shadow-card p-6 sm:p-8">
+        <h2 class="font-display text-2xl font-bold">Pregnancy Due Date Calculator</h2>
+        <p class="text-ink-soft mt-1">Based on the first day of your last menstrual period (LMP).</p>
+        <form id="ddForm" class="mt-6 grid sm:grid-cols-2 gap-4" onsubmit="event.preventDefault()">
+          <div class="grid gap-1"><label for="lmp" class="text-xs font-bold text-ink-soft">First Day of LMP</label><input id="lmp" type="date" class="h-11 px-3 rounded-field border border-[#89919A]"></div>
+          <div class="grid gap-1"><label for="cyc" class="text-xs font-bold text-ink-soft">Cycle Length (days)</label><input id="cyc" type="number" min="21" max="40" value="28" class="h-11 px-3 rounded-field border border-[#89919A]"></div>
+        </form>
+        <div id="ddOut" class="mt-6 rounded-card bg-teal-tint p-5 hidden" aria-live="polite">
+          <p class="text-xs font-bold uppercase text-teal-deep">Estimated Due Date</p>
+          <p id="ddDate" class="font-display text-3xl font-bold mt-1"></p>
+          <p id="ddWeek" class="text-ink-soft mt-1"></p>
+          <div class="mt-4 h-2 rounded-full bg-white overflow-hidden"><div id="ddBar" class="h-full bg-teal-dark rounded-full transition-all" style="width:0"></div></div>
+          <div class="mt-1 flex justify-between text-xs text-ink-soft"><span>1st trimester</span><span>2nd</span><span>3rd</span></div>
+        </div>
+        <a href="doctors.html?dept=OBS%20%26%20Gynae" class="mt-6 inline-flex items-center h-10 px-4 rounded-btn bg-teal-dark text-white font-bold hover:bg-teal-deep">See an OBS &amp; Gynae Specialist</a>
+      </section>
+
+      <!-- BMI -->
+      <section id="bmi" class="scroll-mt-24 bg-white rounded-card shadow-card p-6 sm:p-8">
+        <h2 class="font-display text-2xl font-bold">BMI Calculator</h2>
+        <p class="text-ink-soft mt-1">Body Mass Index for adults, using Asian cut-off points.</p>
+        <form class="mt-6 grid sm:grid-cols-3 gap-4" onsubmit="event.preventDefault()">
+          <div class="grid gap-1"><label for="wt" class="text-xs font-bold text-ink-soft">Weight (kg)</label><input id="wt" type="number" min="1" value="65" class="h-11 px-3 rounded-field border border-[#89919A]"></div>
+          <div class="grid gap-1"><label for="ft" class="text-xs font-bold text-ink-soft">Height (ft)</label><input id="ft" type="number" min="1" max="8" value="5" class="h-11 px-3 rounded-field border border-[#89919A]"></div>
+          <div class="grid gap-1"><label for="inch" class="text-xs font-bold text-ink-soft">Height (in)</label><input id="inch" type="number" min="0" max="11" value="6" class="h-11 px-3 rounded-field border border-[#89919A]"></div>
+        </form>
+        <div class="mt-6 rounded-card bg-canvas p-5" aria-live="polite">
+          <div class="flex items-end justify-between gap-4">
+            <div><p class="text-xs font-bold uppercase text-ink-soft">Your BMI</p><p id="bmiVal" class="font-display text-4xl font-bold">—</p></div>
+            <p id="bmiCat" class="rounded-full px-3 py-1 text-sm font-bold"></p>
+          </div>
+          <div class="relative mt-5">
+            <div class="flex h-3 rounded-full overflow-hidden">
+              <div class="bg-[#7CB8E6]" style="width:25%"></div><div class="bg-teal" style="width:15%"></div><div class="bg-[#F2B544]" style="width:12.5%"></div><div class="bg-[#E76500]" style="width:47.5%"></div>
+            </div>
+            <div id="bmiPin" class="absolute -top-1.5 w-1.5 h-6 rounded bg-ink transition-all" style="left:0"></div>
+            <div class="mt-2 flex justify-between text-xs text-ink-soft"><span>&lt;18.5 Under</span><span>18.5–22.9 Healthy</span><span>23–24.9 Over</span><span>25+ Obese</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Symptom guide -->
+      <section id="symptoms" class="scroll-mt-24 lg:col-span-2 bg-white rounded-card shadow-card p-6 sm:p-8">
+        <h2 class="font-display text-2xl font-bold">Symptom Guide <span class="bn font-semibold text-ink-soft text-lg">· লক্ষণ অনুযায়ী বিভাগ</span></h2>
+        <p class="text-ink-soft mt-1">Pick your main symptom to see which department to visit. This is not a diagnosis.</p>
+        <div id="symBtns" class="mt-6 flex flex-wrap gap-2"></div>
+        <div id="symOut" class="mt-6 rounded-card bg-teal-tint p-5 hidden" aria-live="polite"></div>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    // Due date (Naegele's rule, adjusted for cycle length)
+    function due() {
+      const v = $('lmp').value; if (!v) return;
+      const lmp = new Date(v + 'T00:00:00'), cyc = +$('cyc').value || 28;
+      const d = new Date(lmp); d.setDate(d.getDate() + 280 + (cyc - 28));
+      const days = Math.floor((Date.now() - lmp) / 864e5), w = Math.floor(days / 7);
+      $('ddOut').classList.remove('hidden');
+      $('ddDate').textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      $('ddWeek').textContent = days >= 0 && days <= 294 ? `You are about ${w} weeks ${days % 7} days pregnant.` : 'Check the date you entered.';
+      $('ddBar').style.width = Math.max(0, Math.min(100, days / 280 * 100)) + '%';
+    }
+    ['lmp', 'cyc'].forEach(id => $(id).addEventListener('input', due));
+
+    // BMI
+    function bmi() {
+      const kg = +$('wt').value, m = ((+$('ft').value || 0) * 12 + (+$('inch').value || 0)) * 0.0254;
+      if (!kg || !m) return;
+      const b = kg / (m * m);
+      const [cat, cls] = b < 18.5 ? ['Underweight', 'bg-navy-tint text-navy'] : b < 23 ? ['Healthy', 'bg-pos-tint text-pos'] : b < 25 ? ['Overweight', 'bg-crit-tint text-crit'] : ['Obese', 'bg-neg-tint text-neg'];
+      $('bmiVal').textContent = b.toFixed(1);
+      $('bmiCat').textContent = cat; $('bmiCat').className = 'rounded-full px-3 py-1 text-sm font-bold ' + cls;
+      $('bmiPin').style.left = `calc(${Math.max(0, Math.min(100, (b - 10) / 30 * 100))}% - 3px)`;
+    }
+    ['wt', 'ft', 'inch'].forEach(id => $(id).addEventListener('input', bmi)); bmi();
+
+    // Symptom guide
+    const SYM = [
+      ['Chest pain', 'বুকে ব্যথা', 'Cardiology', true], ['Fever', 'জ্বর', 'Medicine', false],
+      ['Stomach pain', 'পেটে ব্যথা', 'Medicine & Gastroliver', false], ['Skin rash / itching', 'চর্মরোগ', 'Dermatology & Skin', false],
+      ['Ear, nose, throat', 'নাক-কান-গলা', 'ENT', false], ['Eye problem', 'চোখের সমস্যা', 'Eye', false],
+      ['Joint / back pain', 'জয়েন্ট বা কোমর ব্যথা', 'Orthopedic', false], ['Headache / numbness', 'মাথাব্যথা', 'Neurology', false],
+      ['Breathing difficulty', 'শ্বাসকষ্ট', 'Chest Specialist', true], ['Pregnancy care', 'গর্ভকালীন সেবা', 'OBS & Gynae', false],
+      ['Child is unwell', 'শিশুর অসুস্থতা', 'Child Specialist', false], ['Anxiety / low mood', 'মানসিক চাপ', 'Psychiatry', false],
+    ];
+    $('symBtns').innerHTML = SYM.map((s, i) => `<button data-i="${i}" class="h-11 px-4 rounded-full border border-line hover:border-teal-dark font-semibold aria-pressed:bg-teal-dark aria-pressed:text-white aria-pressed:border-teal-dark" aria-pressed="false">${s[0]} <span class="bn font-normal opacity-75">· ${s[1]}</span></button>`).join('');
+    $('symBtns').addEventListener('click', e => {
+      const b = e.target.closest('[data-i]'); if (!b) return;
+      $('symBtns').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      const [en, bn, dept, urgent] = SYM[+b.dataset.i];
+      $('symOut').classList.remove('hidden');
+      $('symOut').className = 'mt-6 rounded-card p-5 ' + (urgent ? 'bg-neg-tint' : 'bg-teal-tint');
+      $('symOut').innerHTML = `<p class="text-xs font-bold uppercase ${urgent ? 'text-neg' : 'text-teal-deep'}">Suggested department</p>
+        <p class="font-display text-2xl font-bold mt-1">${dept}</p>
+        ${urgent ? `<p class="mt-2 font-semibold text-neg">If it is severe or sudden, go to Emergency now or call 01234567890.</p>` : ''}
+        <a href="doctors.html?dept=${encodeURIComponent(dept)}" class="mt-4 inline-flex items-center h-10 px-4 rounded-btn bg-teal-dark text-white font-bold hover:bg-teal-deep">See ${dept} Doctors</a>`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Price &amp; Package List | Health Care General Hospital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/site.js"></script>
+</head>
+<body class="bg-canvas text-ink text-[15px] leading-relaxed antialiased">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="bg-white border-b border-line-soft">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+        <p class="text-teal-dark font-bold text-xs uppercase tracking-wider">Medical Tests</p>
+        <h1 class="mt-2 font-display text-4xl font-bold">Test Price &amp; Package List</h1>
+        <p class="mt-3 text-ink-soft max-w-2xl">Select packages to compare them and see your total. Prices may change; confirm at the counter or call 01234567890.</p>
+
+        <dl class="mt-8 grid grid-cols-3 gap-3 max-w-xl">
+          <div class="rounded-card bg-teal-tint p-4"><dt class="text-xs font-bold text-teal-deep uppercase">Packages</dt><dd id="sTotal" class="font-display text-2xl font-bold">0</dd></div>
+          <div class="rounded-card bg-navy-tint p-4"><dt class="text-xs font-bold text-navy uppercase">Selected</dt><dd id="sSel" class="font-display text-2xl font-bold">0</dd></div>
+          <div class="rounded-card bg-[#FFF6E5] p-4"><dt class="text-xs font-bold text-crit uppercase">Total</dt><dd id="sSum" class="font-display text-2xl font-bold">৳0</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-8 py-10 grid lg:grid-cols-[1fr_320px] gap-8 items-start">
+      <div>
+        <form id="f" class="grid sm:grid-cols-3 gap-3" onsubmit="event.preventDefault()">
+          <div class="grid gap-1"><label for="type" class="text-xs font-bold text-ink-soft">Package Type</label>
+            <select id="type" class="h-11 px-3 rounded-field border border-[#89919A] bg-white"><option>All</option><option>General Health</option><option>Screening</option></select></div>
+          <div class="grid gap-1"><label for="age" class="text-xs font-bold text-ink-soft">Age Group</label>
+            <select id="age" class="h-11 px-3 rounded-field border border-[#89919A] bg-white"><option>All</option><option>Child</option><option>Adult</option><option>Senior Citizen</option></select></div>
+          <div class="grid gap-1"><label for="price" class="text-xs font-bold text-ink-soft">Price Range</label>
+            <select id="price" class="h-11 px-3 rounded-field border border-[#89919A] bg-white"><option value="all">All</option><option value="lt5">Under ৳5,000</option><option value="5to7">৳5,000–৳7,000</option><option value="gt7">Above ৳7,000</option></select></div>
+        </form>
+        <div id="pkgs" class="mt-6 grid md:grid-cols-2 gap-4"></div>
+
+        <h2 class="mt-14 font-display text-2xl font-bold">Individual Tests</h2>
+        <div class="mt-4 grid gap-1 max-w-sm"><label for="tq" class="text-xs font-bold text-ink-soft">Search tests</label>
+          <input id="tq" type="search" placeholder="e.g. CBC, TSH" class="h-11 px-3 rounded-field border border-[#89919A]"></div>
+        <div class="mt-4 bg-white rounded-card shadow-card overflow-x-auto">
+          <table class="w-full text-left min-w-[480px]">
+            <thead class="bg-canvas text-xs uppercase text-ink-soft"><tr><th class="px-5 py-3">Test</th><th class="px-5 py-3">Category</th><th class="px-5 py-3 text-right">Price</th></tr></thead>
+            <tbody id="tests" class="divide-y divide-line-soft"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Compare panel -->
+      <aside class="lg:sticky lg:top-24 bg-white rounded-card shadow-pop p-6">
+        <h2 class="font-display text-lg font-bold">Your Selection</h2>
+        <ul id="sel" class="mt-3 grid gap-2 text-sm"></ul>
+        <div class="mt-4 pt-4 border-t border-line-soft flex justify-between font-bold"><span>Total</span><span id="sum2" class="font-display text-xl">৳0</span></div>
+        <a href="index.html#appointment" class="mt-4 flex justify-center items-center h-11 rounded-btn bg-teal-dark text-white font-bold hover:bg-teal-deep">Book Appointment</a>
+        <button id="clr" class="mt-2 w-full h-10 rounded-btn text-ink-soft font-bold hover:bg-canvas">Clear All</button>
+      </aside>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    /* SAMPLE data — replace names, tests and prices with the hospital's real list. */
+    const PKGS = [
+      { name: 'Basic Health Checkup', type: 'General Health', age: 'Adult', price: 3500, tests: ['CBC', 'Blood Sugar (Fasting)', 'Lipid Profile', 'Urine R/E', 'ECG'] },
+      { name: 'Executive Health Checkup', type: 'General Health', age: 'Adult', price: 7500, tests: ['CBC', 'HbA1c', 'Lipid Profile', 'SGPT', 'S. Creatinine', 'TSH', 'Chest X-Ray', 'ECG', 'USG Whole Abdomen'] },
+      { name: 'Senior Citizen Package', type: 'General Health', age: 'Senior Citizen', price: 6500, tests: ['CBC', 'HbA1c', 'Lipid Profile', 'S. Creatinine', 'Uric Acid', 'ECG', 'Echocardiogram'] },
+      { name: 'Child Health Package', type: 'General Health', age: 'Child', price: 2500, tests: ['CBC', 'Urine R/E', 'Stool R/E', 'S. Vitamin D'] },
+      { name: 'Diabetes Screening', type: 'Screening', age: 'Adult', price: 2200, tests: ['Blood Sugar (Fasting)', 'Blood Sugar (2hrs ABF)', 'HbA1c', 'Urine Microalbumin'] },
+      { name: 'Cardiac Screening', type: 'Screening', age: 'Adult', price: 5500, tests: ['Lipid Profile', 'Troponin I', 'ECG', 'Echocardiogram'] },
+      { name: "Women's Health Screening", type: 'Screening', age: 'Adult', price: 6000, tests: ['CBC', 'TSH', 'Pap Smear', 'USG Lower Abdomen', 'S. Vitamin D'] },
+    ];
+    const TESTS = [
+      ['CBC (Complete Blood Count)', 'Haematology', 400], ['Blood Sugar (Fasting)', 'Biochemistry', 150],
+      ['HbA1c', 'Biochemistry', 900], ['Lipid Profile', 'Biochemistry', 1000], ['SGPT', 'Biochemistry', 400],
+      ['SGOT', 'Biochemistry', 400], ['S. Creatinine', 'Biochemistry', 400], ['TSH', 'Hormone', 800],
+      ['Urine R/E', 'Clinical Pathology', 300], ['Dengue NS1', 'Serology', 500], ['Dengue IgG/IgM', 'Serology', 700],
+      ['ECG', 'Cardiology', 400], ['Echocardiogram', 'Cardiology', 2000], ['Chest X-Ray (P/A)', 'Radiology', 600],
+      ['USG Whole Abdomen', 'Sonology', 1500],
+    ];
+    const tk = n => '৳' + n.toLocaleString('en-IN');
+    const $ = id => document.getElementById(id);
+    const chosen = new Set();
+
+    function inRange(p, r) { return r === 'all' || (r === 'lt5' && p < 5000) || (r === '5to7' && p >= 5000 && p <= 7000) || (r === 'gt7' && p > 7000); }
+
+    function render() {
+      const t = $('type').value, a = $('age').value, r = $('price').value;
+      const list = PKGS.map((p, i) => ({ ...p, i })).filter(p => (t === 'All' || p.type === t) && (a === 'All' || p.age === a) && inRange(p.price, r));
+      $('pkgs').innerHTML = list.length ? list.map(p => {
+        const on = chosen.has(p.i);
+        return `<article class="bg-white rounded-card p-6 flex flex-col transition ${on ? 'ring-2 ring-teal-dark shadow-pop' : 'shadow-card'}">
+          <div class="flex flex-wrap gap-2 text-xs font-bold"><span class="rounded-full bg-navy-tint text-navy px-2.5 py-0.5">${p.type}</span><span class="rounded-full bg-canvas text-ink-soft px-2.5 py-0.5">${p.age}</span></div>
+          <h3 class="mt-3 font-display text-lg font-bold">${p.name}</h3>
+          <p class="font-display text-2xl font-bold text-teal-deep mt-1">${tk(p.price)}</p>
+          <ul class="mt-3 mb-5 grid gap-1 text-sm text-ink-soft">${p.tests.map(x => `<li class="flex gap-2"><span class="text-teal-dark" aria-hidden="true">✓</span>${x}</li>`).join('')}</ul>
+          <button data-i="${p.i}" aria-pressed="${on}" class="mt-auto h-10 rounded-btn font-bold transition ${on ? 'bg-teal-dark text-white hover:bg-teal-deep' : 'border border-teal-dark text-teal-deep hover:bg-teal-tint'}">${on ? 'Selected' : 'Add to Compare'}</button>
+        </article>`;
+      }).join('') : `<p class="md:col-span-2 text-center py-10 text-ink-soft">No packages match these filters.</p>`;
+
+      const sel = [...chosen].map(i => PKGS[i]);
+      const sum = sel.reduce((s, p) => s + p.price, 0);
+      $('sTotal').textContent = PKGS.length; $('sSel').textContent = sel.length;
+      $('sSum').textContent = $('sum2').textContent = tk(sum);
+      $('sel').innerHTML = sel.length ? sel.map(p => `<li class="flex justify-between gap-3"><span>${p.name}</span><span class="font-semibold">${tk(p.price)}</span></li>`).join('') : '<li class="text-ink-soft">No packages selected.</li>';
+
+      const q = $('tq').value.trim().toLowerCase();
+      $('tests').innerHTML = TESTS.filter(x => !q || x[0].toLowerCase().includes(q)).map(([n, c, p]) =>
+        `<tr class="hover:bg-teal-tint/50"><td class="px-5 py-3 font-semibold">${n}</td><td class="px-5 py-3 text-ink-soft">${c}</td><td class="px-5 py-3 text-right font-bold">${tk(p)}</td></tr>`).join('');
+    }
+    $('pkgs').addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (!b) return; const i = +b.dataset.i; chosen.has(i) ? chosen.delete(i) : chosen.add(i); render(); });
+    ['type', 'age', 'price', 'tq'].forEach(id => $(id).addEventListener('input', render));
+    $('clr').addEventListener('click', () => { chosen.clear(); render(); });
+    render();
+  </script>
+</body>
+</html>

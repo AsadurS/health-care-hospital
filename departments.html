@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Departments | Health Care General Hospital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/site.js"></script>
+</head>
+<body class="bg-canvas text-ink text-[15px] leading-relaxed antialiased">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="bg-white border-b border-line-soft">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+        <p class="text-teal-dark font-bold text-xs uppercase tracking-wider">Departments</p>
+        <h1 class="mt-2 font-display text-4xl font-bold">Our Departments</h1>
+        <p class="mt-3 text-ink-soft max-w-2xl">Specialized departments grouped by body system for easy navigation.</p>
+        <div id="groupTabs" class="mt-8 flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Department groups"></div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-8 py-12">
+      <div id="deptGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    const DEPTS = [
+      ['Heart & Medicine', 'Cardiology', 'Diagnosis and treatment for heart and vascular diseases.'],
+      ['Heart & Medicine', 'Medicine', 'Internal medicine and chronic condition management.'],
+      ['Heart & Medicine', 'Medicine & Gastroliver', 'Comprehensive digestive and liver disease management.'],
+      ['Women & Child', 'OBS & Gynae', "Complete women's reproductive and maternity care."],
+      ['Women & Child', 'Child Specialist', 'Pediatric care for infants and growing children.'],
+      ['Women & Child', 'Genetics', 'Genetic testing, counseling, and family health guidance.'],
+      ['Skin & Wellness', 'Dermatology & Skin', 'Skincare and advanced dermatological treatments.'],
+      ['Skin & Wellness', 'Nutritionist', 'Customized diet planning and lifestyle consultation.'],
+      ['Skin & Wellness', 'Physiotherapy', 'Physical rehabilitation and therapy sessions.'],
+      ['ENT & Eye', 'ENT', 'Expert ear, nose, and throat treatments.'],
+      ['ENT & Eye', 'Eye', 'Comprehensive eye care and vision correction.'],
+      ['ENT & Eye', 'Oral & Dental', 'Dental care, oral and maxillofacial surgery.'],
+      ['Neuro & Mental Health', 'Neurology', 'Brain, nerve, and spinal disorder management.'],
+      ['Neuro & Mental Health', 'Spine & Neurosurgery', 'Advanced neuro and spinal surgical services.'],
+      ['Neuro & Mental Health', 'Psychiatry', 'Mental health diagnosis, counseling, and therapy.'],
+      ['Organs & Surgery', 'Nephrology', 'Kidney and urinary system care.'],
+      ['Organs & Surgery', 'Orthopedic', 'Bone, joint, and musculoskeletal treatments.'],
+      ['Organs & Surgery', 'Cancer Specialist', 'Oncology, chemotherapy, and radiotherapy services.'],
+      ['Organs & Surgery', 'Surgery', 'General and minimally invasive surgical procedures.'],
+      ['Organs & Surgery', 'Urology', 'Male reproductive and urinary system care.'],
+      ['Organs & Surgery', 'Endocrinology', 'Hormonal imbalance and thyroid treatment.'],
+      ['Support & Emergency', 'Haematology', 'Diagnosis and care for blood disorders.'],
+      ['Support & Emergency', 'Sonology', 'Ultrasound and imaging diagnostics.'],
+      ['Support & Emergency', 'Chest Specialist', 'Asthma, COPD, and lung disease management.'],
+      ['Support & Emergency', 'Emergency', '24/7 emergency and trauma care unit.'],
+    ];
+    const groups = ['All', ...new Set(DEPTS.map(d => d[0]))];
+    let current = 'All';
+    const tabs = document.getElementById('groupTabs'), grid = document.getElementById('deptGrid');
+
+    function render() {
+      tabs.innerHTML = groups.map(g => {
+        const n = g === 'All' ? DEPTS.length : DEPTS.filter(d => d[0] === g).length;
+        const on = g === current;
+        return `<button role="tab" aria-selected="${on}" data-g="${g}" class="shrink-0 h-10 px-4 rounded-full border font-semibold transition ${on ? 'bg-teal-dark border-teal-dark text-white' : 'bg-white border-line hover:border-teal-dark'}">${g} <span class="${on ? 'text-white/80' : 'text-ink-mute'}">${n}</span></button>`;
+      }).join('');
+      grid.innerHTML = DEPTS.filter(d => current === 'All' || d[0] === current).map(([g, name, desc]) => {
+        const emergency = name === 'Emergency';
+        return `<article class="group bg-white rounded-card shadow-card p-6 flex flex-col hover:-translate-y-0.5 hover:shadow-pop transition ${emergency ? 'ring-2 ring-neg/30' : ''}">
+          <p class="text-xs font-bold uppercase tracking-wide ${emergency ? 'text-neg' : 'text-navy'}">${g}</p>
+          <h2 class="mt-2 font-display text-xl font-bold">${name}</h2>
+          <p class="mt-2 text-ink-soft">${desc}</p>
+          <div class="mt-auto pt-5 flex gap-3">
+            <a href="doctors.html?dept=${encodeURIComponent(name)}" class="inline-flex items-center h-10 px-4 rounded-btn bg-teal-tint text-teal-deep font-bold hover:bg-teal-soft">View Doctors</a>
+            ${emergency ? `<a href="tel:${SITE.phone}" class="inline-flex items-center h-10 px-4 rounded-btn bg-neg text-white font-bold">Call ${SITE.phone}</a>` : ''}
+          </div>
+        </article>`;
+      }).join('');
+    }
+    tabs.addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (b) { current = b.dataset.g; render(); } });
+    render();
+  </script>
+</body>
+</html>
